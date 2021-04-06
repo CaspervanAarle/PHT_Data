@@ -9,12 +9,16 @@ import sklearn
 from sklearn import datasets
 import numpy as np
 import csv
+import os
 
 
-GOAL_DIR = "C:\\Users\\Casper\\Projects\\MasterScriptie\\custom_projects\\data\\generated_dataset\\"
+#GOAL_DIR = "C:\\Users\\Casper\\Projects\\MasterScriptie\\custom_projects\\data\\generated_dataset\\"
+MAP_NAME = "dataset"
+GOAL_DIR2 = os.getcwd() + "\\{}\\".format(MAP_NAME)
 N_FEATURES = 9
 N_TARGETS = 1
 
+# create variable values
 x_all, y_all = sklearn.datasets.make_regression(n_samples=100, 
                                  n_features=N_FEATURES, 
                                  n_informative=4, 
@@ -28,15 +32,20 @@ x_all, y_all = sklearn.datasets.make_regression(n_samples=100,
                                  random_state=1)
 
 
+# create variable names
 variables = []
 for x in range(N_FEATURES + N_TARGETS):
     variables.append("var_" + str(x+1))
     
 
-
+# save to separate csv files:
+try:
+    os.mkdir(GOAL_DIR2)
+except OSError:
+    print ("Creation of the directory failed")
 for i, (x, y) in enumerate(zip(x_all, y_all)):
     datapoint = np.concatenate((x, [y]))
-    with open(GOAL_DIR + str(i+1) + '.csv', 'w', newline='') as file:
+    with open(GOAL_DIR2 + str(i+1) + '.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(variables)
         writer.writerow(datapoint)
