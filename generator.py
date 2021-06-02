@@ -14,13 +14,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-#GOAL_DIR = "C:\\Users\\Casper\\Projects\\MasterScriptie\\custom_projects\\data\\generated_dataset\\"
-MAP_NAME = "linreg"
-GOAL_DIR_CENTRAL = os.getcwd() + "\\{}\\".format(MAP_NAME + "_central")
-GOAL_DIR_FEDERATED = os.getcwd() + "\\{}\\".format(MAP_NAME + "_federated")
+DATASET_NAME = "synthetic"
+GOAL_DIR_CENTRAL = os.getcwd() + "\\out\\{}\\".format(DATASET_NAME + "_central")
+GOAL_DIR_FEDERATED = os.getcwd() + "\\out\\{}\\".format(DATASET_NAME + "_federated")
 N_FEATURES = 1
 N_TARGETS = 1
 
+OUT_DIR = os.getcwd() + "\\out\\"
+try:
+    os.mkdir(OUT_DIR)
+except OSError:
+    print ("Creation of the directory failed or already exists")   
 # create variable values
 
 
