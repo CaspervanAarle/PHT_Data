@@ -2,7 +2,7 @@
 * [PHT_Server](https://github.com/CaspervanAarle/PHT_Server)
 * [PHT_Node](https://github.com/CaspervanAarle/PHT_Node)
 
-# PHT_Synth_Data_Gen
+# PHT_Data
 
 ## Usage
 ```python generate.py```
