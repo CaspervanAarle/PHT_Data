@@ -13,7 +13,7 @@ import pandas as pd
 ### dataset name
 # name of the csv file in the external folder
 # must include header as first row
-dataset_name = "placeholder"
+dataset_name = "haberman"
 
 ### in dir:
 CSV_DIR = os.getcwd() + "\\in\\{}.csv".format(dataset_name)
@@ -22,7 +22,7 @@ GOAL_DIR_CENTRAL = os.getcwd() + "\\out\\{}\\".format(dataset_name + "_central")
 GOAL_DIR_FEDERATED = os.getcwd() + "\\out\\{}\\".format(dataset_name + "_federated")
 
 ### random seed for consistent shuffling
-RANDOM_SEED = 4
+RANDOM_SEED = 5
 
 def write_federated(ds):
     """make directory for federated data and write data"""

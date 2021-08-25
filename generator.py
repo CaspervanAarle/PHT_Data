@@ -12,15 +12,20 @@ import csv
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+import random
+
+from sklearn.preprocessing import KBinsDiscretizer
 
 # name your custom dataset:
-dataset_name = "synthetic"
+dataset_name = "synthetic_class3"
 
 
 GOAL_DIR_CENTRAL = os.getcwd() + "\\out\\{}\\".format(dataset_name + "_central")
 GOAL_DIR_FEDERATED = os.getcwd() + "\\out\\{}\\".format(dataset_name + "_federated")
 N_FEATURES = 1
 N_TARGETS = 1
+
+SCALE = [random.Random().randint(1,1000) for _ in range(N_FEATURES)]
 
 
 def make_dir():
@@ -45,18 +50,18 @@ def make_reg():
                                      bias=2, 
                                      effective_rank=None, 
                                      tail_strength=-1, 
-                                     noise=1, 
+                                     noise=4, 
                                      shuffle=True, 
                                      coef=False, 
-                                     random_state=9)
+                                     random_state=10)
 
 
 
 def make_classif():
     """generate dataset for classification task"""
-    return sklearn.datasets.make_classification(n_samples=50, 
+    return sklearn.datasets.make_classification(n_samples=100, 
                                          n_features=N_FEATURES, 
-                                         n_informative=1, 
+                                         n_informative=N_FEATURES, 
                                          n_redundant=0, 
                                          n_repeated=0, 
                                          n_classes=2, 
@@ -65,10 +70,10 @@ def make_classif():
                                          flip_y=0.01, 
                                          class_sep=0.5, 
                                          hypercube=True, 
-                                         shift=1.0, 
-                                         scale=4.0, 
+                                         shift=None, 
+                                         scale=SCALE, 
                                          shuffle=True, 
-                                         random_state=5)
+                                         random_state=800)
 
 def create_header():
     """creates header for csv file"""
@@ -114,12 +119,26 @@ def write_federated(x_all, y_all, header):
             writer.writerow(header)
             writer.writerow(datapoint)
             
+def scale(x, scale_vec):
+    return x*scale_vec
+            
 if __name__ == "__main__" :
     make_dir()
-    # x_all, y_all = make_reg()
+    #x, y = make_reg()
     x, y = make_classif()
+    
+    scale_vec = [pow(10, random.randint(-2, 2)) for i in range(N_FEATURES)]
+    
+    x = scale(x, scale_vec)
+    print(x)
     visualize(x, y)
     header = create_header()
+    
+    binner = KBinsDiscretizer(n_bins=5, encode='ordinal')
+    x = binner.fit_transform(x)
+    print(x)
+    
+    visualize(x, y)
     write_central(x, y, header)
     write_federated(x, y, header)
     
